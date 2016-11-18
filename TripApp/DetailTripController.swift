@@ -16,8 +16,22 @@ class DetailTripController: UIViewController {
     
     private let tripModel = TripModel.get()
     var selectedTripIndex = -1
+    var loadedForFirstTime = true
+    
+    override func viewDidLoad() {
+        showData()
+        loadedForFirstTime = false
+    }
     
     override func viewDidAppear(_ animated: Bool) {
+        if (loadedForFirstTime) {
+            showData()
+        } else {
+            loadedForFirstTime = !loadedForFirstTime
+        }
+    }
+    
+    func showData() {
         do {
             let trip = try tripModel.getTrip(index: selectedTripIndex)
             destinationLabel.text! = trip.destination!
